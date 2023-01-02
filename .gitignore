@@ -1,0 +1,14 @@
+# Node artifacts
+node_modules/
+dist/
+
+# Logs and temp
+*.log
+logs/
+tmp/
+
+# MacOS
+.DS_Store
+
+# Project guidance
+AGENTS.md
