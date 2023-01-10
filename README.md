@@ -18,3 +18,5 @@ LiminalLedger is a solo effort that tracks on-chain fee anomalies and recommends
 ## Current focus
 
 Right now the codebase is focused on the collector/adapter layer. Future work will expand into alert delivery and history playback.
+
+The latest layer adds a volatility scoring engine so the collector batches can be ranked. A `ScoreEngine` ingests the recent history, computes platform-specific base/priority volatility, and emits a confidence score along with a calm/watch/urgent interpretation. That output will feed the next CLI hook so the solo maintainer can decide when to push sensitive transactions without needing a full analytics stack.
