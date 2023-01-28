@@ -6,6 +6,7 @@ dist/
 *.log
 logs/
 tmp/
+state/
 
 # MacOS
 .DS_Store

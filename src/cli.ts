@@ -1,15 +1,18 @@
 import { Collector } from './collector';
 import { ScoreEngine } from './scorer';
+import { SnapshotStore } from './persistence';
 
 const collector = new Collector({ maxHistory: 64 });
 const scorer = new ScoreEngine({ lookback: 32, minSamples: 2 });
+const store = new SnapshotStore();
 
-export function runSurvey() {
+export async function runSurvey() {
   const snapshots = collector.collect();
-  const report = scorer.assess(collector.exportHistory());
+  const history = await store.persist(snapshots);
+  const report = scorer.assess(history);
 
   console.group('LiminalLedger Snapshot');
-  console.log(`collected ${snapshots.length} estimates across ${collector.exportHistory().length} stored records`);
+  console.log(`collected ${snapshots.length} estimates across ${history.length} stored records`);
   console.table(
     snapshots.map((snapshot) => ({
       provider: snapshot.provider,
@@ -32,5 +35,5 @@ export function runSurvey() {
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  runSurvey();
+  void runSurvey();
 }
