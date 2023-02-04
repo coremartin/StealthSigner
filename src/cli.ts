@@ -1,8 +1,10 @@
 import { Collector } from './collector';
 import { ScoreEngine } from './scorer';
 import { SnapshotStore } from './persistence';
+import { resolveProviderSet } from './config';
 
-const collector = new Collector({ maxHistory: 64 });
+const providerSet = resolveProviderSet(process.env.LIMINAL_PROVIDER_SET ?? 'default');
+const collector = new Collector({ maxHistory: 64, providers: providerSet });
 const scorer = new ScoreEngine({ lookback: 32, minSamples: 2 });
 const store = new SnapshotStore();
 
@@ -12,6 +14,7 @@ export async function runSurvey() {
   const report = scorer.assess(history);
 
   console.group('LiminalLedger Snapshot');
+  console.log(`using provider set: ${providerSet.map((provider) => provider.name).join(', ')}`);
   console.log(`collected ${snapshots.length} estimates across ${history.length} stored records`);
   console.table(
     snapshots.map((snapshot) => ({

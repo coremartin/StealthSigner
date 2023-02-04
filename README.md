@@ -28,3 +28,7 @@ The latest layer adds a volatility scoring engine so the collector batches can b
 ## Persistence stub
 
 `src/persistence.ts` keeps a local `state/snapshot-history.json` file with the last 200 entries so the CLI can capture multi-run context. The `SnapshotStore` exposes `read` and `persist` helpers that append the newest estimates, trim the file, and then hand the merged history back to the scorer. This emulates a simple persistence layer until a proper database or event log is introduced.
+
+## Provider sets
+
+Provider sets live in `src/config.ts` so the collector can swap between default, diligence, or alerting feeds. The CLI respects the `LIMINAL_PROVIDER_SET` environment variable and prints the active set on every run, which keeps the solo maintainer aware of where the estimates are sourced when reviewing logs or alerts.
