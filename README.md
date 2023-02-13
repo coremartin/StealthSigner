@@ -32,3 +32,7 @@ The latest layer adds a volatility scoring engine so the collector batches can b
 ## Provider sets
 
 Provider sets live in `src/config.ts` so the collector can swap between default, diligence, or alerting feeds. The CLI respects the `LIMINAL_PROVIDER_SET` environment variable and prints the active set on every run, which keeps the solo maintainer aware of where the estimates are sourced when reviewing logs or alerts.
+
+## Testing notes
+
+There is a simple smoke script at `tests/scorer.test.ts` that pumps fake snapshots into `ScoreEngine` and asserts the expected platforms and scoring behavior. You can run it with a TypeScript runner (e.g. `npx ts-node tests/scorer.test.ts`) or compile the tests to JavaScript if a bundler is added later.
