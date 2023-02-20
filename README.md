@@ -25,6 +25,10 @@ The latest layer adds a volatility scoring engine so the collector batches can b
 
 `src/cli.ts` ties together the collector and scoring engine into a lightweight runner. Each invocation gathers the freshest fake RPC estimates, stores them in a sliding history, and prints a table of the latest values plus a ranked list of platform signals. Keeping the runner minimal lets the same loop be wired into cron jobs, CLI dashboards, or alert hooks later without rewriting the core logic.
 
+## Reporting helpers
+
+`src/report.ts` keeps the formatting logic separate so the CLI can print badges and short-form summaries for every signal. The helpers also expose a `highlightUrgent` convenience function that the runner uses to flag any `urgent` platforms, mirroring how a future alerting service would prioritize a single feed.
+
 ## Persistence stub
 
 `src/persistence.ts` keeps a local `state/snapshot-history.json` file with the last 200 entries so the CLI can capture multi-run context. The `SnapshotStore` exposes `read` and `persist` helpers that append the newest estimates, trim the file, and then hand the merged history back to the scorer. This emulates a simple persistence layer until a proper database or event log is introduced.

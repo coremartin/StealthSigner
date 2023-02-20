@@ -2,6 +2,7 @@ import { Collector } from './collector';
 import { ScoreEngine } from './scorer';
 import { SnapshotStore } from './persistence';
 import { resolveProviderSet } from './config';
+import { buildSummary, highlightUrgent } from './report';
 
 const providerSet = resolveProviderSet(process.env.LIMINAL_PROVIDER_SET ?? 'default');
 const collector = new Collector({ maxHistory: 64, providers: providerSet });
@@ -29,6 +30,11 @@ export async function runSurvey() {
     const [top] = report;
     console.log(`Top signal: ${top.platform} is ${top.interpretation} (score ${top.compositeScore})`);
     console.table(report);
+    buildSummary(report).forEach((line) => console.log(line));
+    const urgent = highlightUrgent(report);
+    if (urgent) {
+      console.log(`Urgent attention: ${urgent.platform} with score ${urgent.compositeScore}`);
+    }
   } else {
     console.log('Not enough history to compute a signal yet.');
   }
