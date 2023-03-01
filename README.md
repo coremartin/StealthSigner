@@ -25,6 +25,10 @@ The latest layer adds a volatility scoring engine so the collector batches can b
 
 `src/cli.ts` ties together the collector and scoring engine into a lightweight runner. Each invocation gathers the freshest fake RPC estimates, stores them in a sliding history, and prints a table of the latest values plus a ranked list of platform signals. Keeping the runner minimal lets the same loop be wired into cron jobs, CLI dashboards, or alert hooks later without rewriting the core logic.
 
+## Scripts
+
+`package.json` ships with `survey` and `test` scripts so the solo developer can kickstart the CLI or the scorer test without remembering long commands. Running `npm run survey` executes the collector loop via `ts-node`, and `npm run test` exercises the smoke script that guards the scoring math.
+
 ## Reporting helpers
 
 `src/report.ts` keeps the formatting logic separate so the CLI can print badges and short-form summaries for every signal. The helpers also expose a `highlightUrgent` convenience function that the runner uses to flag any `urgent` platforms, mirroring how a future alerting service would prioritize a single feed.

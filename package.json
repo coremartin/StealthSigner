@@ -1,0 +1,22 @@
+{
+  "name": "liminal-ledger",
+  "version": "0.1.0",
+  "description": "A solo-run collector that ranks RPC fee signals for cautious transaction windows.",
+  "main": "src/cli.ts",
+  "scripts": {
+    "survey": "ts-node src/cli.ts",
+    "test": "ts-node tests/scorer.test.ts"
+  },
+  "keywords": [
+    "web3",
+    "collector",
+    "gas",
+    "solo-project"
+  ],
+  "author": "coremartin",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
