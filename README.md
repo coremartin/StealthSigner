@@ -33,6 +33,10 @@ The latest layer adds a volatility scoring engine so the collector batches can b
 
 `src/report.ts` keeps the formatting logic separate so the CLI can print badges and short-form summaries for every signal. The helpers also expose a `highlightUrgent` convenience function that the runner uses to flag any `urgent` platforms, mirroring how a future alerting service would prioritize a single feed.
 
+## Alert stub
+
+`src/alert.ts` is a placeholder controller that records the latest urgent signal and stamps it with a friendly note. The CLI can hook into this later to push notifications through a webhook, email, or bot channel without touching the scoring math again.
+
 ## Persistence stub
 
 `src/persistence.ts` keeps a local `state/snapshot-history.json` file with the last 200 entries so the CLI can capture multi-run context. The `SnapshotStore` exposes `read` and `persist` helpers that append the newest estimates, trim the file, and then hand the merged history back to the scorer. This emulates a simple persistence layer until a proper database or event log is introduced.
